@@ -1,0 +1,15 @@
+services:
+  postgres:
+    image: postgres
+    volumes:
+      - pg_volume:/var/lib/postgresql/data
+    restart: always
+    environment:
+      POSTGRES_PASSWORD: beer
+      POSTGRES_USER: beer
+      POSTGRES_DB: beer
+    ports:
+      - "5432:5432"
+volumes:
+  pg_volume:
+    name: pg_database
