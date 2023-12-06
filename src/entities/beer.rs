@@ -11,6 +11,7 @@ pub struct Model {
     #[sea_orm(column_type = "Float", nullable)]
     pub abv: Option<f32>,
     pub description: Option<String>,
+    pub img_url: Option<String>,
 }
 
 #[derive(Copy, Clone, Debug, EnumIter, DeriveRelation)]

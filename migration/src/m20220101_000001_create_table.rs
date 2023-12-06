@@ -22,6 +22,7 @@ impl MigrationTrait for Migration {
                     .col(ColumnDef::new(Beer::Brewery).string().not_null())
                     .col(ColumnDef::new(Beer::Abv).float())
                     .col(ColumnDef::new(Beer::Description).string())
+                    .col(ColumnDef::new(Beer::ImgUrl).string())
                     .to_owned(),
             )
             .await
@@ -41,5 +42,6 @@ enum Beer {
     Name,
     Brewery,
     Abv,
-    Description
+    Description,
+    ImgUrl,
 }
