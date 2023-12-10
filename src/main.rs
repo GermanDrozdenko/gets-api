@@ -21,6 +21,7 @@ async fn main() -> io::Result<()> {
             .app_data(Data::new(AppState { conn: conn.clone() }))
             .configure(config::config_handlers)
             .wrap(Logger::default())
+            .wrap(AppConfig::set_cors(&config.client_url))
     })
     .bind(config.server_url)?
     .run()
