@@ -19,10 +19,14 @@ impl MigrationTrait for Migration {
                             .primary_key(),
                     )
                     .col(ColumnDef::new(Beer::Name).string().not_null())
+                    .col(ColumnDef::new(Beer::Style).string().not_null())
+                    .col(ColumnDef::new(Beer::GroupFilter).string().not_null())
+                    .col(ColumnDef::new(Beer::StyleFilter).string())
                     .col(ColumnDef::new(Beer::Brewery).string().not_null())
                     .col(ColumnDef::new(Beer::Abv).float())
                     .col(ColumnDef::new(Beer::Description).string())
                     .col(ColumnDef::new(Beer::ImgUrl).string())
+                    .col(ColumnDef::new(Beer::LastReview).string())
                     .to_owned(),
             )
             .await
@@ -40,8 +44,12 @@ enum Beer {
     Table,
     BeerId,
     Name,
+    Style,
+    GroupFilter,
+    StyleFilter,
     Brewery,
     Abv,
     Description,
     ImgUrl,
+    LastReview,
 }
