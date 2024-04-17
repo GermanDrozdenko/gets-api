@@ -16,6 +16,7 @@ pub struct Model {
     pub description: Option<String>,
     pub img_url: Option<String>,
     pub last_review: String,
+    pub location: String,
 }
 
 #[derive(Copy, Clone, Debug, EnumIter, DeriveRelation)]

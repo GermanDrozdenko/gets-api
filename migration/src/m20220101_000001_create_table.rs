@@ -27,6 +27,7 @@ impl MigrationTrait for Migration {
                     .col(ColumnDef::new(Beer::Description).string())
                     .col(ColumnDef::new(Beer::ImgUrl).string())
                     .col(ColumnDef::new(Beer::LastReview).string())
+                    .col(ColumnDef::new(Beer::Location).string())
                     .to_owned(),
             )
             .await
@@ -35,7 +36,7 @@ impl MigrationTrait for Migration {
     async fn down(&self, manager: &SchemaManager) -> Result<(), DbErr> {
         manager
             .drop_table(Table::drop().table(Beer::Table).to_owned())
-            .await  
+            .await
     }
 }
 
@@ -52,4 +53,5 @@ enum Beer {
     Description,
     ImgUrl,
     LastReview,
+    Location,
 }
