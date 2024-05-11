@@ -19,9 +19,10 @@ impl MigrationTrait for Migration {
                             .primary_key(),
                     )
                     .col(ColumnDef::new(Beer::Name).string().not_null())
-                    .col(ColumnDef::new(Beer::Style).string().not_null())
-                    .col(ColumnDef::new(Beer::GroupFilter).string().not_null())
-                    .col(ColumnDef::new(Beer::StyleFilter).string())
+                    .col(ColumnDef::new(Beer::UntappdStyle).string().not_null())
+                    .col(ColumnDef::new(Beer::Category).string().not_null())
+                    .col(ColumnDef::new(Beer::Subcategory).string())
+                    .col(ColumnDef::new(Beer::Style).string())
                     .col(ColumnDef::new(Beer::Brewery).string().not_null())
                     .col(ColumnDef::new(Beer::Abv).float())
                     .col(ColumnDef::new(Beer::Description).string())
@@ -45,9 +46,10 @@ enum Beer {
     Table,
     BeerId,
     Name,
+    UntappdStyle,
+    Category,
+    Subcategory,
     Style,
-    GroupFilter,
-    StyleFilter,
     Brewery,
     Abv,
     Description,
