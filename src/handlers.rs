@@ -9,7 +9,7 @@ use crate::{
     config::AppState,
     entities::{
         beer,
-        prelude::{Beer, FilterBeer},
+        prelude::{Beer, FilterBeer, LocationFilter},
     },
 };
 
@@ -18,11 +18,15 @@ async fn check() -> impl Responder {
     HttpResponse::Ok().body("Ok")
 }
 
-#[get("/all_beer")]
-async fn get_all_beer(data: web::Data<AppState>) -> impl Responder {
+#[post("/all_beer")]
+async fn get_all_beer(data: web::Data<AppState>, filter: Json<LocationFilter>) -> impl Responder {
     let conn = &data.conn;
 
-    let beer = Beer::find().all(conn).await.unwrap();
+    let beer = Beer::find()
+        .filter(beer::Column::Location.contains(&filter.location))
+        .all(conn)
+        .await
+        .unwrap();
 
     Json(beer)
 }

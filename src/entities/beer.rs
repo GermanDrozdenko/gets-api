@@ -20,12 +20,17 @@ pub struct Model {
     pub location: String,
 }
 
-#[derive(Deserialize, Debug)]
+#[derive(Deserialize)]
 pub struct FilterBeer {
     pub location: String,
     pub category: String,
     pub subcategory: String,
     pub style: String,
+}
+
+#[derive(Deserialize)]
+pub struct LocationFilter {
+    pub location: String,
 }
 
 #[derive(Copy, Clone, Debug, EnumIter, DeriveRelation)]
