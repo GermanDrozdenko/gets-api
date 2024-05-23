@@ -45,5 +45,6 @@ impl AppConfig {
 pub fn config_handlers(cfg: &mut web::ServiceConfig) {
     cfg.service(handlers::check)
         .service(handlers::get_all_beer)
-        .service(handlers::get_result_beer);
+        .service(handlers::get_result_beer)
+        .service(handlers::get_random_beer);
 }

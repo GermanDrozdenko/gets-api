@@ -784,6 +784,7 @@ dependencies = [
  "actix-web",
  "dotenvy",
  "env_logger",
+ "rand",
  "sea-orm",
  "serde",
 ]

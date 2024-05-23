@@ -12,6 +12,7 @@ use crate::{
         prelude::{Beer, FilterBeer, LocationFilter},
     },
 };
+use rand::Rng;
 
 #[get("/")]
 async fn check() -> impl Responder {
@@ -20,13 +21,7 @@ async fn check() -> impl Responder {
 
 #[post("/all_beer")]
 async fn get_all_beer(data: web::Data<AppState>, filter: Json<LocationFilter>) -> impl Responder {
-    let conn = &data.conn;
-
-    let beer = Beer::find()
-        .filter(beer::Column::Location.contains(&filter.location))
-        .all(conn)
-        .await
-        .unwrap();
+    let beer = all_beer(data, filter).await;
 
     Json(beer)
 }
@@ -45,4 +40,26 @@ async fn get_result_beer(data: web::Data<AppState>, filter: Json<FilterBeer>) ->
         .unwrap();
 
     Json(beer)
+}
+
+#[post("/random_beer")]
+async fn get_random_beer(
+    data: web::Data<AppState>,
+    filter: Json<LocationFilter>,
+) -> impl Responder {
+    let beer = all_beer(data, filter).await;
+
+    let random_beer = beer[rand::thread_rng().gen_range(0..beer.len())].clone();
+
+    Json(random_beer)
+}
+
+async fn all_beer(data: web::Data<AppState>, filter: Json<LocationFilter>) -> Vec<beer::Model> {
+    let conn = &data.conn;
+
+    Beer::find()
+        .filter(beer::Column::Location.contains(&filter.location))
+        .all(conn)
+        .await
+        .unwrap()
 }
