@@ -1,0 +1,254 @@
+openapi: 3.0.3
+info:
+  title: Swagger Gets - OpenAPI 3.0
+  description: |-
+    This is a Gets API documentation based on the OpenAPI 3.0 specification. 
+    
+    Some useful links:
+    - [The Gets repository](https://github.com/GermanDrozdenko/gets-api)
+  termsOfService: http://swagger.io/terms/
+  contact:
+    email: apiteam@swagger.io
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  version: 1.0.11
+externalDocs:
+  description: Find out more about Swagger
+  url: http://swagger.io
+tags:
+  - name: beer
+    description: All information about drinks
+paths:
+  /all_beer:
+    post:
+      tags:
+        - beer
+      summary: Returns list of all drinks
+      description: Get list of all drinks
+      operationId: getAllDrinks
+      parameters:
+        - name: location
+          in: query
+          description: Location value that need to be considered for filter
+          required: true
+          schema:
+            type: string
+            enum:
+              - Шрум
+              - Голодранец
+              - Лагер
+              - Бутылочка
+      requestBody:
+        description: Get all drinks in location
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LocationFilter'
+        required: true
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Beer'
+        '400':
+          description: Invalid location supplied
+          
+  /result_beer:
+    post:
+      tags:
+        - beer
+      summary: Returns list of result drinks
+      description: Pass filter with location, category, subcategory, style fields to get list of result drinks
+      operationId: getResultDrinks
+      parameters:
+        - name: location
+          in: query
+          description: Location value that need to be considered for filter
+          required: true
+          schema:
+            type: string
+            enum:
+              - Шрум
+              - Голодранец
+              - Лагер
+              - Бутылочка
+        - name: category
+          in: query
+          description: Category value that need to be considered for filter
+          required: true
+          schema:
+            type: string
+            enum:
+              - classic
+              - sweet
+              - sour
+              - salty
+        - name: subcategory
+          in: query
+          description: Subcategory value that need to be considered for filter <br /> Classic category - lager, wheat, ipa, dark_ale <br /> Sweet category - mead, sour_ale, gose, cider <br /> Sour category - lambic, sour_ale, gose, cider <br /> Salty category - tomatoes, shrooms, other
+          required: true
+          schema:
+            type: string
+            enum:
+              - lager
+              - wheat
+              - ipa
+              - dark_ale
+              - mead
+              - sour_ale
+              - gose
+              - cider
+              - lambic
+              - tomatoes
+              - shrooms
+              - other
+        - name: style
+          in: query
+          description: Style value that need to be considered for filter <br /> Lager subcategory - pale_lager, amber_lager, dark_lager, pilsner <br /> Wheat subcategory - wheat_beer, saison, berliner_weisse, weiss_beer <br /> Ipa subcategory - wc_ipa, ne_ipa, m_ipa, c_ipa <br /> Dark_ale subcategory - stout, baltic_porter, barleywine <br /> Mead subcategory - berries, fruits, classic <br /> Sour_ale subcategory (within Sweet category) - berries, fruits <br /> Gose subcategory (within Sweet category) - berries, fruits <br /> Cider subcategory - berries, fruits, classic <br /> Lambic subcategoty - berries, classic <br /> Sour_ale subcategory (within Sour category) - berries, fruits, classic <br /> Gose subcategory (within Sour category) - berries, fruits, classic <br /> For any subcategory within Salty category style is not required
+          schema:
+            type: string
+            enum:
+              - pale_lager
+              - amber_lager
+              - dark_lager
+              - pilsner
+              - wheat_beer
+              - saison
+              - berliner_weisse
+              - weiss_beer
+              - wc_ipa
+              - ne_ipa
+              - m_ipa
+              - c_ipa
+              - stout
+              - baltic_porter
+              - barleywine
+              - berries
+              - fruits
+              - classic
+      requestBody:
+        description: Get result drinks filtered by location, category, subcategory, style
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FilterBeer'
+        required: true
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Beer'
+        '400':
+          description: Invalid filter supplied
+
+  /random_beer:
+    post:
+      tags:
+        - beer
+      summary: Returns random drink
+      description: Get random drink in location
+      operationId: getRandomDrink
+      parameters:
+        - name: location
+          in: query
+          description: Location value that need to be considered for filter
+          required: true
+          schema:
+            type: string
+            enum:
+              - Шрум
+              - Голодранец
+              - Лагер
+              - Бутылочка
+      requestBody:
+        description: Get random drink in location
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LocationFilter'
+        required: true
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Beer'
+        '400':
+          description: Invalid location supplied
+
+components:
+  schemas:
+    Beer:
+      type: object
+      properties:
+        beer_id:
+          type: integer
+          format: int32
+          example: 10
+        name:
+          type: string
+          example: Moravský Klas Světlé
+        untappd_style:
+          type: string
+          example: Pilsner - Czech / Bohemian
+        category:
+          type: string
+          example: classic
+        subcategory:
+          type: string
+          example: lager
+        style:
+          type: string
+          example: pilsner
+        brewery:
+          type: string
+          example: Velka Morava
+        abv:
+          type: number
+          format: float
+          example: 4.5
+        description:
+          type: string
+          example: Classic Czech pale lezak
+        img_url:
+          type: string
+          example: https://your_path_to_image
+        last_review:
+          type: string
+          example: Great, 5 out of 5
+        location:
+          type: string
+          example: Шрум
+      xml:
+        name: beer
+    FilterBeer:
+      type: object
+      properties:
+        location:
+          type: string
+          example: Шрум
+        category:
+          type: string
+          example: classic
+        subcategory:
+          type: string
+          example: lager
+        style:
+          type: string
+          example: pilsner
+      xml:
+        name: filter_beer
+    LocationFilter:
+      type: object
+      properties:
+        location:
+          type: string
+          example: Шрум
+      xml:
+        name: location_filter
