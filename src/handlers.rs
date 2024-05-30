@@ -1,12 +1,12 @@
 use actix_web::{
     get, post,
     web::{self, Json},
-    HttpResponse, Responder,
+    HttpRequest, HttpResponse, Responder,
 };
 use sea_orm::{ColumnTrait, EntityTrait, QueryFilter};
 
 use crate::{
-    config::AppState,
+    config::{AppConfig, AppState},
     entities::{
         beer,
         prelude::{Beer, FilterBeer, LocationFilter},
@@ -52,6 +52,18 @@ async fn get_random_beer(
     let random_beer = beer[rand::thread_rng().gen_range(0..beer.len())].clone();
 
     Json(random_beer)
+}
+
+#[get("assets/images/{filename}")]
+pub async fn get_file(req: HttpRequest, filename: web::Path<String>) -> impl Responder {
+    let file_path = std::path::PathBuf::from(AppConfig::from_env().home_dir)
+        .as_path()
+        .join("static/")
+        .join(filename.into_inner());
+
+    let file = actix_files::NamedFile::open_async(file_path).await.unwrap();
+
+    file.into_response(&req)
 }
 
 async fn all_beer(data: web::Data<AppState>, filter: Json<LocationFilter>) -> Vec<beer::Model> {
