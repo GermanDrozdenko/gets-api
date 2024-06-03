@@ -20,7 +20,7 @@ tags:
   - name: beer
     description: All information about drinks
 paths:
-  /all_beer:
+  /api/all_beer:
     post:
       tags:
         - beer
@@ -56,7 +56,7 @@ paths:
         '400':
           description: Invalid location supplied
           
-  /result_beer:
+  /api/result_beer:
     post:
       tags:
         - beer
@@ -146,7 +146,7 @@ paths:
         '400':
           description: Invalid filter supplied
 
-  /random_beer:
+  /api/random_beer:
     post:
       tags:
         - beer

@@ -14,19 +14,19 @@ use crate::{
 };
 use rand::Rng;
 
-#[get("/")]
+#[get("/api")]
 async fn check() -> impl Responder {
     HttpResponse::Ok().body("Ok")
 }
 
-#[post("/all_beer")]
+#[post("/api/all_beer")]
 async fn get_all_beer(data: web::Data<AppState>, filter: Json<LocationFilter>) -> impl Responder {
     let beer = all_beer(data, filter).await;
 
     Json(beer)
 }
 
-#[post("/result_beer")]
+#[post("/api/result_beer")]
 async fn get_result_beer(data: web::Data<AppState>, filter: Json<FilterBeer>) -> impl Responder {
     let conn = &data.conn;
 
@@ -42,7 +42,7 @@ async fn get_result_beer(data: web::Data<AppState>, filter: Json<FilterBeer>) ->
     Json(beer)
 }
 
-#[post("/random_beer")]
+#[post("/api/random_beer")]
 async fn get_random_beer(
     data: web::Data<AppState>,
     filter: Json<LocationFilter>,
@@ -54,7 +54,7 @@ async fn get_random_beer(
     Json(random_beer)
 }
 
-#[get("assets/images/{filename}")]
+#[get("/api/assets/images/{filename}")]
 pub async fn get_file(req: HttpRequest, filename: web::Path<String>) -> impl Responder {
     let file_path = std::path::PathBuf::from(AppConfig::from_env().home_dir)
         .as_path()

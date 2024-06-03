@@ -1,3 +1,4 @@
+mod autotests;
 mod config;
 mod entities;
 mod handlers;
